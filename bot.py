@@ -34,16 +34,19 @@ then other methods can be accessed and they'll use the right api object
     def extractTL(self, userid):
         """Takes a user's timeline and extracts the text of each tweet into a temp file, then returns the path and name to that file"""
         self.userid = userid
+        #Create a temporary file where the extracted tweet text will go
         self.tempfile = tempfile.NamedTemporaryFile(prefix=str(self.userid), suffix='.tmp', delete=False)
+        #Get the last 200 items in the provided user's timeline
         self.temptl = self.twitterAPI.user_timeline(self.userid, count=200)
         #Gotta be a better way of doing this...
-        self.num=0
+        self.num=0 # track what number we're on
         for item in self.temptl:
+            #Pull out the text of the current tweet
             self.tweettext = self.temptl[self.num].text
-            self.tweettext = self.tweettext+"\n"
-            self.tempfile.write(tweettext)
+            self.tweettext = self.tweettext+"\n" # add a newline char
+            self.tempfile.write(tweettext) # Write our new line
             self.num = self.num+1
-        self.tempfile.flush()
+        self.tempfile.flush() # update the file on disk
 
 
 class BotStreamListener(tweepy.StreamListener):
