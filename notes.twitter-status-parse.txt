@@ -1,0 +1,17 @@
+My notes on parsed twitter status objects:
+
+In the entities object, we have:
+user_mentions,
+symbols,
+trends,
+hashtags,
+and URLS
+
+In the user_mentions object, we have what look like dictionaries that contain this:
+ID (Twitter user ID),
+indices (List with numbers of position of mention name), 
+id_str (Twitter user ID as a string),
+screen_name (The at twitter handle),
+and lastly, name (Which is just the account's name).
+
+In the remaining entries (symbols, trends, hashtags, and URLs), the items are just in lists, though trends I think has an indicies values, as does hashtags
