@@ -26,7 +26,7 @@ The method then calls the tweepy API method to get the last tweets of a user or 
 
 
 
-class StdOutListener(tweepy.StreamListener):
+class BotStreamListener(tweepy.StreamListener):
     """Class that handles tweepy streaming events.
 E.g: on_connect, on_disconnect, on_status, on_direct_message, etc."""
     def on_connect( self ):
@@ -63,7 +63,7 @@ def main():
     try:
         me = api.me()
         print "Starting userstream for %s ( %s )" %(me.name, me.screen_name)
-        stream = tweepy.Stream(auth, StdOutListener())
+        stream = tweepy.Stream(auth, BotStreamListener())
         #Start the stream
         stream.userstream()
 
