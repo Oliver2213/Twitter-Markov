@@ -2,6 +2,5 @@
 *.pyc
 #Ignore app token and API keys
 keys.py
-#Ignore chatbot database file
-chatbot.db
-database.db
+#Ignore log files
+*.log
