@@ -1,6 +1,6 @@
 #This file contains the bot's classes and methods
 
-import tweepy
+import tweepy.StreamListener as StreamListener
 import tempfile
 
 class Bot(object):
@@ -17,11 +17,12 @@ Main can then use that file name with the markov library to generate a markov di
 """
     def __init__(self, twitterAPI):
         """
-This method initializes the bot class with the twitter API in use, other methods use this value, so when instantiating this class be sure to do it like:
+This method initializes the bot class with the twitter API in use. Other methods use this value, so when instantiating this class be sure to do it like:
 bot = bot.bot(api)
 then other methods can be accessed and they'll use the right api object
 """
         self.twitterAPI = twitterAPI
+        self.tweepy = tweepy
 
     def extract_mentions(self, tweet):
         """Return a list of @mentionnames in the provided tweet object"""
@@ -49,13 +50,13 @@ then other methods can be accessed and they'll use the right api object
         self.tempfile.flush() # update the file on disk
 
 
-class BotStreamListener(tweepy.StreamListener):
+class BotStreamListener(StreamListener):
     """Class that handles tweepy streaming events.
 E.g: on_connect, on_disconnect, on_status, on_direct_message, etc."""
     def on_connect( self ):
         """Gets run when the stream is first connected to twitter"""
         print("Connection to twitter established!!")
-        self.me = api.me()
+        self.me = self.twitterAPI.me()
 
     def on_disconnect( self, notice ):
         """Gets run when the stream gets disconnected from twitter"""

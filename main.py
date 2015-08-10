@@ -1,9 +1,9 @@
 #Markov chaining twitter bot
 #Author: Blake Oliver <oliver22213@me.com>
 
-import bot
 import markov
 import tweepy
+import bot
 from keys import * #import our user keys
 
 #Twitter auth stuff
@@ -17,6 +17,7 @@ def main():
     try:
         me = api.me()
         print "Starting userstream for %s ( %s )" %(me.name, me.screen_name)
+        bot = bot.Bot(api)
         stream = tweepy.Stream(auth, bot.BotStreamListener())
         #Start the stream
         stream.userstream()
