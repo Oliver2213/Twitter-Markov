@@ -39,7 +39,7 @@ then other methods can be accessed and they'll use the right api object
         #Gotta be a better way of doing this...
         self.num=0
         for item in self.temptl:
-            self.tweettext = self.temptl[item].text
+            self.tweettext = self.temptl[self.num].text
             self.tweettext = self.tweettext+"\n"
             self.tempfile.write(tweettext)
             self.num = self.num+1
