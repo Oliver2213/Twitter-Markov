@@ -23,7 +23,7 @@ The function then proceeds to open the input file, create a dictionary of chains
         #Open our file that our chains will be based on
         self.chainbase = open(self.chainbasename).read()
         #Create a dict of chains bassed on our input chainbase:
-        self.chain_dict = self.make_chains(self.chainbase, int(self.ngram)
+        self.chain_dict = self.make_chains(self.chainbase, int(self.ngram))
         #Finally, get our random text from a chain
         self.randtext = self.make_text(self.chain_dict, int(self.maxchars))
         #Return the random text to the caller
@@ -59,7 +59,7 @@ The function then proceeds to open the input file, create a dictionary of chains
         """Takes a dictionary of markov chains and returns random text
         based off an original text."""
         self.chains = chains
-       self.max_length = max_length
+        self.max_length = max_length
         # grab a random key from the chains dict, this is a tuple. Could be the last key added to the dictionary, which would end the random_text_list before it reach the specified max_length
         seed = random.choice(self.chains.keys())
         # convert the tuple into a list and add it to the list random_text_list
@@ -95,12 +95,3 @@ The function then proceeds to open the input file, create a dictionary of chains
         #print "length of final text_string is", len(self.text_string)
 
         return self.text_string
-
-    input_text = open(filename).read()
-
-    chain_dict = make_chains(input_text, int(ngram_size))
-    random_text = make_text(chain_dict, int(max_length))
-    print random_text
-
-if __name__ == "__main__":
-    main()
