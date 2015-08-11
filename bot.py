@@ -59,7 +59,6 @@ E.g: on_connect, on_disconnect, on_status, on_direct_message, etc.
     def on_connect( self ):
         """Gets run when the stream is first connected to twitter"""
         print("Connection to twitter established!!")
-        print ("Starting text extraction of this account's timeline...")
         self.me = self.api.me() #Store values about the authorized account
 
 
