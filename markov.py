@@ -8,17 +8,24 @@ import sys
 import random
 class markov(object):
     """Deals with the creation and seeding of markov chains."""
-    def __init__(self, text, ngram_size, maxchars):
+    def __init__(self, ngram_size, maxchars):
+        """Sets initial parameters for the markov algorithm. These can be changed in subsequent calls -- these are just the defaults."""
+        # prefix values with "def", to mark them as defaults and so they won't be overridden by subsequent method calls
+        self.defngram = ngram_size
+        self.defmaxchars = maxchars
+
+    def getChain(self, text, ngram_size=self.defngram, maxchars=defself.maxchars):
         """
 Function that handles the hole markov chaining process.
 It takes these args:
 text - Text base to create chains from.
-ngram_size - Kind of sketchy on this one... Think it's how many start words... I'll try 3 to start off with...
-Maximum characters - The maximum number of characters the response should have.
-The function then proceeds to open the input file, create a dictionary of chains from it, and then choose one of them that meets you're character length spesification.
+ngram_size (optional) - Kind of sketchy on this one... Think it's how many start words... I'll try 3 to start off with...
+Maximum characters (optional) - The maximum number of characters the response should have.
+The args that are marked optional will have values taken from the initial class instantiation.
+The function then proceeds to open the input file, create a dictionary of chains from it, and then choose one of them that meets you're character length spesification and return it.
 """
         self.chainbasename = text
-        self.ngram = ngram_size
+        self.ngram_size = ngram_size
         self.maxchars = maxchars
         #Open our file that our chains will be based on
         self.chainbase = open(self.chainbasename).read()
