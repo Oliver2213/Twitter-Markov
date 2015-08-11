@@ -18,7 +18,7 @@ def main():
         me = api.me()
         print "Starting userstream for %s ( %s )" %(me.name, me.screen_name)
         mybot = bot.Bot(api)
-        stream = tweepy.Stream(auth, bot.BotStreamListener(api))
+        stream = tweepy.Stream(auth, bot.BotStreamListener(api, mybot))
         #Start the stream
         stream.userstream()
 

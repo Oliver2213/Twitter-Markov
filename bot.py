@@ -53,7 +53,7 @@ E.g: on_connect, on_disconnect, on_status, on_direct_message, etc.
 
     def __init__(self, api, bot):
         # Adding a bot arg and code to store it in the instantiated class
-        super(self.__class__, self).__init__(bot)
+        super(self.__class__, self).__init__(api)
         self.bot = bot
 
     def on_connect( self ):
