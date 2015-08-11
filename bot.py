@@ -28,7 +28,7 @@ then other methods can be accessed and they'll use the right api object
         self.tweet = tweet
         self.mentionnames = []
         for item in self.tweet.entities['user_mentions']:
-            self.mentionnames.append(self.tweet.entities['user_mentions'][item]['screen_name'])
+            self.mentionnames.append(item['screen_name'])
         return self.mentionnames
 
     def extractTL(self, userid):
@@ -38,14 +38,11 @@ then other methods can be accessed and they'll use the right api object
         self.tempfile = tempfile.NamedTemporaryFile(prefix=str(self.userid), suffix='.tmp', delete=False)
         #Get the last 200 items in the provided user's timeline
         self.temptl = self.twitterAPI.user_timeline(self.userid, count=200)
-        #Gotta be a better way of doing this...
-        self.num=0 # track what number we're on
         for item in self.temptl:
             #Pull out the text of the current tweet
-            self.tweettext = self.temptl[self.num].text
+            self.tweettext = item.text
             self.tweettext = self.tweettext+"\n" # add a newline char
             self.tempfile.write(tweettext) # Write our new line
-            self.num = self.num+1
         self.tempfile.flush() # update the file on disk
 
 
@@ -53,10 +50,16 @@ class BotStreamListener(StreamListener):
     """Class that handles tweepy streaming events.
 E.g: on_connect, on_disconnect, on_status, on_direct_message, etc.
 """
+
+    def __init__(self, api, bot):
+        # Adding a bot arg and code to store it in the instantiated class
+        super(self.__class__, self).__init__(bot)
+        self.bot = bot
+
     def on_connect( self ):
         """Gets run when the stream is first connected to twitter"""
         print("Connection to twitter established!!")
-        self.me = self.api.me()
+        self.me = self.api.me() #Store values about the authorized account
 
     def on_disconnect( self, notice ):
         """Gets run when the stream gets disconnected from twitter"""
@@ -74,6 +77,7 @@ E.g: on_connect, on_disconnect, on_status, on_direct_message, etc.
             #If the DM isn't one that was sent from this account
             if status.direct_message['sender_screen_name'] != self.me.screen_name:
                 print(status.direct_message['sender_screen_name']+": \""+status.direct_message['text']+"\"")
+                
         except BaseException as e:
             print("Failed on_direct_message()", str(e))
         return True #Keep the stream open
