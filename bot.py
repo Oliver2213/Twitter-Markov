@@ -42,7 +42,7 @@ then other methods can be accessed and they'll use the right api object
             #Pull out the text of the current tweet
             self.tweettext = item.text
             self.tweettext = self.tweettext+"\n" # add a newline char
-            self.tempfile.write(tweettext) # Write our new line
+            self.tempfile.write(self.tweettext) # Write our new line
         self.tempfile.flush() # update the file on disk
 
 
@@ -59,7 +59,9 @@ E.g: on_connect, on_disconnect, on_status, on_direct_message, etc.
     def on_connect( self ):
         """Gets run when the stream is first connected to twitter"""
         print("Connection to twitter established!!")
+        print ("Starting text extraction of this account's timeline...")
         self.me = self.api.me() #Store values about the authorized account
+
 
     def on_disconnect( self, notice ):
         """Gets run when the stream gets disconnected from twitter"""
