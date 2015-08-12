@@ -1,6 +1,7 @@
 #This file contains the bot's classes and methods
 
 import glob
+import markov
 from tweepy import StreamListener
 import tempfile
 
@@ -23,14 +24,19 @@ mybot = bot.bot(api)
 then other methods can be accessed and they'll use the right api object
 """
         self.twitterAPI = twitterAPI
+        self.mymarkov = markov.Markov(3, 140) #Instantiate an instance of the markov lib
 
     def extract_mentions(self, tweet):
-        """Accepts a standard tweepy status object, returns a list of @mentionnames in the provided tweet object with out the at (@) sign attached"""
+        """Takes a standard tweepy tweet object, returns 2 lists: @mentionnames and IDs that correspond to those names, with the mentionname and ID of the account that is running the bot excluded"""
         self.tweet = tweet
         self.mentionnames = []
+        self.mentionids = []
         for item in self.tweet.entities['user_mentions']:
-            self.mentionnames.append(item['screen_name'])
-        return self.mentionnames
+            if item['screen_name'] != self.me.screen_name: #If this @mentionname doesn't belong to this account
+                self.mentionnames.append(item['screen_name'])
+            if item['id'] != self.me.id: #If the userID doesn't belong to this account
+                self.mentionids.append(item['id'])
+        return self.mentionnames, self.mentionids
 
     def extractTL(self, userids):
         """Takes iether a string with one id, or a list of multiple ones and extracts the text from all the tweets and dumps it into a text file, returning it's path"""
@@ -53,6 +59,8 @@ then other methods can be accessed and they'll use the right api object
         self.tempfile.flush() # update the file on disk
         self.tempfile.close() # Close the file handle
         return self.tempfile.name # return the path to the textfile
+
+    
 
     def cleanup(self):
         """Clean any temporary files the bot has created before shutdown"""
