@@ -14,7 +14,7 @@ class markov(object):
         self.defngram = ngram_size
         self.defmaxchars = maxchars
 
-    def getChain(self, text, ngram_size=self.defngram, maxchars=defself.maxchars):
+    def getChain(self, text, ngram_size=None, maxchars=None):
         """
 Function that handles the hole markov chaining process.
 It takes these args:
@@ -25,8 +25,8 @@ The args that are marked optional will have values taken from the initial class 
 The function then proceeds to open the input file, create a dictionary of chains from it, and then choose one of them that meets you're character length spesification and return it.
 """
         self.chainbasename = text
-        self.ngram_size = ngram_size
-        self.maxchars = maxchars
+        self.ngram_size = ngram_size or self.defngram
+        self.maxchars = maxchars or self.defmaxchars
         #Open our file that our chains will be based on
         self.chainbase = open(self.chainbasename).read()
         #Create a dict of chains bassed on our input chainbase:
