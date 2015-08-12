@@ -30,7 +30,7 @@ The function then proceeds to open the input file, create a dictionary of chains
         #Open our file that our chains will be based on
         self.chainbase = open(self.chainbasename).read()
         #Create a dict of chains bassed on our input chainbase:
-        self.chain_dict = self.make_chains(self.chainbase, int(self.ngram))
+        self.chain_dict = self.make_chains(self.chainbase, int(self.ngram_size))
         #Finally, get our random text from a chain
         self.randtext = self.make_text(self.chain_dict, int(self.maxchars))
         #Return the random text to the caller
@@ -68,17 +68,17 @@ The function then proceeds to open the input file, create a dictionary of chains
         self.chains = chains
         self.max_length = max_length
         # grab a random key from the chains dict, this is a tuple. Could be the last key added to the dictionary, which would end the random_text_list before it reach the specified max_length
-        seed = random.choice(self.chains.keys())
+        self.seed = random.choice(self.chains.keys())
         # convert the tuple into a list and add it to the list random_text_list
         self.random_text_list = []
-        self.random_text_list += list(seed)
+        self.random_text_list += list(self.seed)
         self.text_string = ' '.join(self.random_text_list)
         # while the random_text_list is not yet the max length specified...
         while len(self.text_string) < self.max_length:
             # to deal with if the key chosen is the last set, because then the value would be the last word in the text and likely can't be used to make a new key. If attempted new key is the last two words & has no value, choose a random new key to restart instead.
             self.choices = None
             while not self.choices:
-                self.choices = self.chains.get(seed)
+                self.choices = self.chains.get(self.seed)
                 if not self.choices:
                     self.seed = random.choice(self.chains.keys())
                     self.random_text_list += list(self.seed)
