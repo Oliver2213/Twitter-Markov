@@ -44,6 +44,7 @@ then other methods can be accessed and they'll use the right api object
             self.tweettext = self.tweettext+"\n" # add a newline char
             self.tempfile.write(self.tweettext) # Write our new line
         self.tempfile.flush() # update the file on disk
+        self.tempfile.close() # Close the file handle
 
 
 class BotStreamListener(StreamListener):
