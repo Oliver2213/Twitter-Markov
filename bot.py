@@ -42,8 +42,9 @@ then other methods can be accessed and they'll use the right api object
             for item in self.userids:
                 self.temptl.extend(twitterAPI.home_timeline(item, count=200)) #Append the tweets from what user ID we're on in the IDs list to the total list of tweets
 
-        #Create a temporary file where the extracted tweet text will go
+        #Create a temporary file where all the extracted tweet text will go
         self.tempfile = tempfile.NamedTemporaryFile(prefix=str('twitter-markov-'), suffix='.tmp', delete=False)
+        #Iterate through all the tweets in the list
         for item in self.temptl:
             #Pull out the text of the current tweet
             self.tweettext = item.text

@@ -23,6 +23,7 @@ def main():
         stream.userstream()
 
     except KeyboardInterrupt:
+        mybot.cleanup()
         print('goodbye!')
 
 if __name__ == '__main__':
