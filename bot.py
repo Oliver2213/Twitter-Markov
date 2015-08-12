@@ -33,17 +33,22 @@ then other methods can be accessed and they'll use the right api object
         return self.mentionnames
 
     def extractTL(self, userids):
-        """Takes a user's timeline and extracts the text of each tweet into a temp file, then returns the path and name to that file"""
-        self.userid = userid
+        """Takes iether a string with one id, or a list of multiple ones and extracts the text from all the tweets and dumps it into a text file, returning it's path"""
+        self.userids = userids
+        if isinstance(self.userids, str): #What's passed is probably just one ID
+            self.temptl = self.twitterAPI.user_timeline(self.userids, count=200)
+        elif isinstance(self.userids, list): # we have a list of IDs, iterate through
+            self.temptl = [] #Create an empty list to add all our tweets to
+            for item in self.userids:
+                self.temptl.extend(twitterAPI.home_timeline(item, count=200)) #Append the tweets from what user ID we're on in the IDs list to the total list of tweets
+
         #Create a temporary file where the extracted tweet text will go
         self.tempfile = tempfile.NamedTemporaryFile(prefix=str('twitter-markov-'), suffix='.tmp', delete=False)
-        #Get the last 200 items in the provided user's timeline
-        self.temptl = self.twitterAPI.user_timeline(self.userid, count=200)
         for item in self.temptl:
             #Pull out the text of the current tweet
             self.tweettext = item.text
-            self.tweettext = self.tweettext+"\n" # add a newline char
-            self.tempfile.write(self.tweettext) # Write our new line
+            self.tweettext = self.tweettext+"\r\n" # add a newline char
+            self.tempfile.write(self.tweettext) # Write our line containing the text of the tweet to the file
         self.tempfile.flush() # update the file on disk
         self.tempfile.close() # Close the file handle
         return self.tempfile.name # return the path to the textfile
