@@ -11,8 +11,8 @@ Handles spesific functions of the bot.
 Flow:
 Class should be instantiated with twitter API object
 methods:
-extract_mentions pulls all twitter handles out of the entities sent along with a status update. The resulting list does not have the @ sign attached to each name, this is done in main.
-extractTL pulls the latest 200 tweets from the provided user's timeline and tosses their text into a temp file, then returns that file path and name
+extract_mentions pulls all twitter handles and IDs out of the entities sent along with a status update. The resulting names list does not have the @ sign attached to each name, this is done in main.
+extractTL pulls the latest 200 tweets from the provided user's timeline and tosses their text into a temp file, then returns that file path and name. You can also pass it a list of IDS or names to pull timelines for, it will return one large list of all of them if you do so.
 Main can then use that file name with the markov library to generate a markov dict and pull a response out of it
 
 
@@ -39,7 +39,7 @@ then other methods can be accessed and they'll use the right api object
         return self.mentionnames, self.mentionids
 
     def extractTL(self, userids):
-        """Takes iether a string with one id, or a list of multiple ones and extracts the text from all the tweets and dumps it into a text file, returning it's path"""
+        """Takes iether a string with one id, or a list of multiple ones and extracts the text from all the tweets and dumps them into a text file, returning it's path"""
         self.userids = userids
         if isinstance(self.userids, str): #What's passed is probably just one ID
             self.temptl = self.twitterAPI.user_timeline(self.userids, count=200)

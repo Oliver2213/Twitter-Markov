@@ -1,12 +1,70 @@
 #!/usr/bin/env python
+import sys
+import random
+
+class Markov(object):
+    """Second markov library, adapted from 
+https://github.com/tom-martin/markovator/blob/master/markovate.py"""
+
+    def __init__(self):
+        self.words = {}
+        self.entry = {}
+        self.starting_entry = {'word': None, 'following_words':[]}
+
+    def add_to_entry(self, word, entry):
+        self.existing_following_words = filter(lambda following_word: self.following_word['word'] == self.word, self.entry['following_words'])
+
+        if len(self.existing_following_words) == 0:
+            self.entry['following_words'].append({'word': self.word, 'count': 1})
+        else:
+            self.existing_following_words[0]['count'] += 1
+
+    def flatten_entry(self, entry):
+        self.flattened_following_words = map(lambda following_word : [following_word['word'] for x in range(0, following_word['count'])] , self.entry['following_words'])
+        return [item for sublist in flattened_following_words for item in sublist]
+
+    def markovate(self):
+        self.current_reply_word = random.choice(self.flatten_entry(self.starting_entry))
+        self.markovation = ""
+        while not self.current_reply_word == None:
+            self.markovation += self.current_reply_word + " "
+            self.current_reply_word = random.choice(self.words[self.current_reply_word]['following_words'])['word']
+
+        return self.markovation.strip()
+
+    def parse_sentence(self, sentence):
+        self.sentence = sentence
+        self.new_words = self.sentence.lstrip().rstrip().split(' ')    
+        if len(self.new_words) > 0:
+            self.previous_word = self.new_words.pop(0)
+            self.add_to_entry(self.previous_word, self.starting_entry)
+
+            for self.word in self.new_words:
+                if not self.previous_word in self.words:
+                    self.words[self.previous_word] = {'word': self.previous_word, 'following_words':[]}
+
+                if len(self.word) > 0:
+                    self.add_to_entry(self.word, self.words[self.previous_word])
+                    self.previous_word = self.word
+
+            if not self.previous_word in self.words:
+                self.words[self.previous_word] = {'word': previous_word, 'following_words':[]}
+
+                self.add_to_entry(None, self.words[self.previous_word])
+
+    def parse_sentences(self, sentences):
+        for self.sentence in sentences:
+            self.parse_sentence(self.sentence)
+
+
+
 #This excelent little markov chain file was adapted from https://github.com/kwugirl/Markov-chain-generator/blob/master/markov.py
 #Again, The code in this file is (by in large), not my own, it has been adapted from the URL above.
 
 #I have updated it so the markov functions are easily callable from other modules
 
-import sys
-import random
-class markov(object):
+
+class Markov-inoperable(object):
     """Deals with the creation and seeding of markov chains."""
     def __init__(self, ngram_size, maxchars):
         """Sets initial parameters for the markov algorithm. These can be changed in subsequent calls -- these are just the defaults."""
@@ -102,3 +160,4 @@ The function then proceeds to open the input file, create a dictionary of chains
         #print "length of final text_string is", len(self.text_string)
 
         return self.text_string
+
