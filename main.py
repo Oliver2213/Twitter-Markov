@@ -1,7 +1,6 @@
 #Markov chaining twitter bot
 #Author: Blake Oliver <oliver22213@me.com>
 
-import markov
 import tweepy
 import bot
 from keys import * #import our user keys
